@@ -13,7 +13,7 @@ import java.util.*;
 public class People {
     public static HashMap<String ,ArrayList<Person>> countriesMap = new HashMap<>();
     public static ArrayList<Person> personList = new ArrayList<>();
-    public static ArrayList<Person> list1 = new ArrayList<>();
+
 
 
 
@@ -21,13 +21,7 @@ public class People {
         populateHashMapFromFile();
         sortMap();
         System.out.println(countriesMap);
-        for (Map.Entry<String, ArrayList<Person>> entry : countriesMap.entrySet()) {
-            String key = entry.getKey();
-            ArrayList<Person> value = entry.getValue();
-            list1.addAll(value);
-
-        }
-        writeFile("People.json", list1.toString() );
+        writeFile("People.json", countriesMap.toString() );
 
 
 
@@ -68,8 +62,8 @@ public class People {
 
     static void writeFile(String fileName, String fileContent) throws IOException {
         JsonSerializer serializer = new JsonSerializer();
-        String json = serializer.serialize(list1);
-        File People = new File("People.json");
+        String json = serializer.include(String.valueOf(countriesMap)).serialize(fileContent);
+        File People = new File(fileName);
         FileWriter fw = new FileWriter(People);
         fw.write(json);
         fw.close();
